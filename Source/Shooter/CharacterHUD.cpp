@@ -16,7 +16,7 @@ void ACharacterHUD::DrawHUD ()
 			FVector2D CrossHairDrawPosition (Center.X - (CrosshairTexture->GetSurfaceWidth () * 0.5f), Center.Y - (CrosshairTexture->GetSurfaceHeight () * 0.5f));
 
 			// Draw the crosshair at the centerpoint.
-			FCanvasTileItem TileItem (CrossHairDrawPosition, CrosshairTexture->Resource, FLinearColor::White);
+			FCanvasTileItem TileItem (CrossHairDrawPosition, CrosshairTexture->GetResource(), FLinearColor::White);
 			TileItem.BlendMode = SE_BLEND_Translucent;
 			Canvas->DrawItem (TileItem);
 		}

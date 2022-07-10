@@ -55,10 +55,9 @@ AEnemyController::AEnemyController ()
 	LastKnownAgeKey = "LastKnownPositionAge";
 	TargetKey = "Target";
 	CombatActionKey = "CombatAction";
-	SmallestDotProductKey = "SmallestDotProduct";
 	MinPDKey = "MinDistanceFromPlayer";
 	MaxPDKey = "MaxDistanceFromPlayer";
-	CoverPositionKey = "CoverPosition";
+	CombatRoleKey = "CombatRole";
 
 	SearchDuration = 120.f;
 	CombatDuration = 120.f;
@@ -72,6 +71,8 @@ AEnemyController::AEnemyController ()
 
 	currentWaypoint = 0;
 
+	modeDuration = 0.f;
+
 }
 
 void AEnemyController::SetCombatMode (ECombatModes cm)
@@ -80,6 +81,7 @@ void AEnemyController::SetCombatMode (ECombatModes cm)
 		if (BlackboardComp->GetValueAsEnum (CombatModeKey) != (uint8) cm){
 			BlackboardComp->SetValueAsEnum (CombatModeKey, (uint8) cm);
 			BehaviorComp->RestartTree ();
+			modeDuration = 0.f;
 		}
 	}
 }
@@ -89,6 +91,15 @@ void AEnemyController::SetCombatAction (ECombatActions ca)
 	if (BlackboardComp) {
 		if (BlackboardComp->GetValueAsEnum (CombatActionKey) != (uint8) ca) {
 			BlackboardComp->SetValueAsEnum (CombatActionKey, (uint8) ca);
+		}
+	}
+}
+
+void AEnemyController::SetCombatRole (ECombatRole cr)
+{
+	if (BlackboardComp) {
+		if (BlackboardComp->GetValueAsEnum (CombatRoleKey) != (uint8) cr) {
+			BlackboardComp->SetValueAsEnum (CombatRoleKey, (uint8) cr);
 		}
 	}
 }
@@ -130,17 +141,18 @@ void AEnemyController::SetTarget (AActor* actor)
 		BlackboardComp->SetValueAsObject (TargetKey, actor);
 }
 
-void AEnemyController::SetSmallestDotProduct (float dotProduct)
-{
-	if (BlackboardComp)
-		BlackboardComp->SetValueAsEnum (SmallestDotProductKey, dotProduct);
-}
-
 void AEnemyController::UpdateLastKnownAge (float DeltaTime)
 {
 	if (BlackboardComp) {
 		SetLastKnownAge (GetLastKnownAge () + DeltaTime);
 	}
+}
+
+void AEnemyController::Tick (float DeltaTime) {
+	// We check if we have line of sight to the player
+	// If we do we request shooter role
+	// If un successful we carryout our current role
+	modeDuration += DeltaTime;
 }
 
 //This could be promoted to a service so its all controlled in the behaviour tree

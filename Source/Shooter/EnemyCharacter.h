@@ -13,6 +13,8 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
 
+#include "ECombatRole.h"
+
 #include "EnemyCharacter.generated.h"
 
 UCLASS()
@@ -45,7 +47,16 @@ public:
 
 	void DEBUG_ShotAt ();
 
+	void SetRole (ECombatRole role);
+
+	FORCEINLINE ECombatRole GetRole () const { return currentRole; }
+	FORCEINLINE bool HasLineOfSight () const { return bHasLineOfSight; }
+
 private:
 	float baseMovementSpeed;
+
+	ECombatRole currentRole;
+
+	bool bHasLineOfSight;
 
 };

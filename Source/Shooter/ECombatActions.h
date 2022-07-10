@@ -9,5 +9,7 @@ enum class ECombatActions : uint8 {
 	PUSHFORWARD UMETA(DisplayName = "Push Forward"),
 	RETREAT UMETA(DisplayName = "Retreat"),
 	FLANK UMETA(DisplayName = "Flank"),
-	STAY UMETA(DisplayName = "Stay in Place")
+	STAY UMETA(DisplayName = "Stay in Place"),
+	SHOOT UMETA (DisplayName = "Shoot"),
+	INVESTIGATE UMETA (DisplayName = "Investigate")
 };
